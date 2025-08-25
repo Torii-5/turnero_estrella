@@ -1,39 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link. rel="stylesheet" href="style.css"
-    <title>Turnero Estrella</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="imagenes/logo.jpg" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+  <title>Turnero Estrella</title>
 </head>
 <body>
-    <h1>Turnero Estrella</h1>
-    <img src="imagenes/logo.jpg" alt="">
-    <h3>Turnos para tu salud.</h3>
-    <p>Esta página web tiene como objetivo facilitar la tarea de obtener un turno para la atención médica para aquellas personas que no disponen del tiempo, dinero o movilidad para hacerlo de forma presencial.</p>
-    <button class="btn btn-primary" type="submit">Ver más</button>
-    <button class="btn btn-primary" type="submit">Continuar</button>
-    <h4>Te mostramos algunos hospitales de tu zona.</h4>
-    <p>Completá el espacio con tu dirección, te vamos a mostrar los centros de salud más cercanos. Seleccioná el centro de salud de tu preferencia</p>
-    <form>
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Dirección de su hogar</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-          <div id="emailHelp" class="form-text">Nuestro equipo no tendrá acceso a su ubicación actual</div>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-    <img src="" alt="">
-    <p>Ahora completa este formulario de contacto:</p>
-    <form>
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Dirección e-mail</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-          <label for="exampleInputEmail1" class="form-label">Número de telefono</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-    <h2></h2>
+  <h1>Turnero Estrella</h1>
+  <img src="imagenes/logo.jpg" class="rounded mx-auto d-block" alt="...">
+  <h3>Turnos para tu salud.</h3>
+  <p>Esta página web tiene como objetivo facilitar la tarea de obtener un turno para la atención médica para aquellas personas que no disponen del tiempo, dinero o movilidad para hacerlo de forma presencial.</p>
+  <button class="btn btn-primary" type="confirmar">Ver más</button>
+  <button class="btn btn-primary" type="confirmar">Continuar</button>
+  <h4>Te mostramos algunos hospitales de tu zona.</h4>
+  <p>Completá el espacio con tu dirección, te vamos a mostrar los centros de salud más cercanos. Seleccioná el centro de salud de tu preferencia</p>
+  <form>
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Dirección de su ubicación actual:</label>
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      <div id="emailHelp" class="form-text">Nuestro equipo no tendrá acceso a su ubicación actual</div>
+    </div>
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <button class="btn btn-primary" type="button">Aceptar</button>
+    </div>
+  </form>
+  <img src="imagenes/mapa.jpg" class="rounded mx-auto d-block" alt="...">
+  <p>Ingresá el centro de salud elegido (Debe incluir nombre y dirección):</p>
+  <form>
+  <div class="mb-3">
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+  </div>
+  <p>Selecciona las especialidad</p>
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <select class="form-select" aria-label="Default select example">
+        <option selected>Ortopedia</option>
+        <option value="1">Neurología</option>
+        <option value="2">Odontología</option>
+        <option value="3">Pediatria</option>
+      </select>
+      <button class="btn btn-primary" type="button">Continuar</button>
+    </div>
+  </form>
+  <p>Ahora completa este formulario de contacto:</p>
+  <form>
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Dirección e-mail</label>
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <button class="btn btn-primary" type="button">Continuar</button>
+    </div>
+  </form>
+  <div class="p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
+    <h2>Sobre nosotros</h2>
+    <p>Somos un grupo de estudiantes de la escuela Proa que ideó esta aplicación para que sacar un turno de manera mas efectiva y rapida. La idea surgió luego de elegir nuestra temática, "salud y bienestar", y poner en común algunas experiencias con respecto a esta temática. De allí surgió el problema común de la demora y poca eficiencia a la hora de sacar turnos en hospitales y/o dispensarios, por lo que decidimos hacer esta aplicación para resolver el problema.</p>
+  </div>
 </body>
 </html>
