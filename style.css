@@ -24,6 +24,7 @@ form{
 button{
     text-align: center;
 }
-::backdrop{
-    color: rgb(127, 197, 255);
+
+.navbar{
+    background-color: rgb(61, 179, 247);
 }
