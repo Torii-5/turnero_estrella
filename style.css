@@ -1,0 +1,29 @@
+#logo{
+    width: 100px;
+}
+h1{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-style: oblique;
+    text-align: center;
+    color: rgb(24, 24, 151);
+}
+h3{
+    text-align: center;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color:rgb(16, 110, 197)
+}
+h4{
+    text-align: center;
+}
+p{
+    text-align: center;
+}
+form{
+    text-align: center;
+}
+button{
+    text-align: center;
+}
+::backdrop{
+    color: rgb(127, 197, 255);
+}
