@@ -9,7 +9,7 @@
   <title>Turnero Estrella</title>
 </head>
 <body>
-  <!-- Navbar -->
+  <!-- secciones -->
   <nav class="navbar navbar-expand-lg bg-body-primary">
     <div class="container-fluid">
       <a class="navbar-brand" href="index.html">
@@ -22,62 +22,181 @@
         <ul class="navbar-nav">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Inicio</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Hospitales</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Turnos de atención inmediata</a>
+            <li class="nav-item"><a class="nav-link" href="#calendario">Calendario</a></li>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Header -->
+  <!-- encabezado -->
   <header class="text-center my-4">
     <h1>Turnero Estrella</h1>
     <h3>Turnos para tu salud.</h3>
     <p>Esta página web tiene como objetivo facilitar la tarea de obtener un turno para la atención médica para aquellas personas que no disponen del tiempo, dinero o movilidad para hacerlo de forma presencial.</p>
   </header>
 
-  <!-- Buttons -->
+  <!-- botones -->
   <div class="text-center mb-4">
     <a class="btn btn-primary" href="sobrenosotros.html" role="button">Ver más</a>
     <button class="btn btn-primary mx-2" type="button">Continuar</button>
   </div>
+   <!-- Buscar hospitales -->
+   <section class="container my-5" id="hospitales">
+    <h4>Hospitales cercanos a tu dirección</h4>
+    <p>Ingresá tu dirección para mostrar los hospitales cercanos en el mapa.</p>
 
-  <!-- Hospital Search -->
-  <section class="container">
-    <h4>Te mostramos algunos hospitales de tu zona.</h4>
-    <p>Completá el espacio con tu dirección, te vamos a mostrar los centros de salud más cercanos. Seleccioná el centro de salud de tu preferencia</p>
 
-    <form>
+    <form id="locationForm">
       <div class="mb-3">
-        <label for="userLocation" class="form-label">Dirección de su ubicación actual:</label>
-        <input type="text" class="form-control" id="userLocation" placeholder="Ej. Calle 123">
-        <div id="emailHelp" class="form-text">Nuestro equipo no tendrá acceso a su ubicación actual.</div>
+        <label for="userLocation" class="form-label">Dirección:</label>
+        <input type="text" class="form-control" id="userLocation" placeholder="Ej. Av. San Martín 123, Córdoba" required>
       </div>
       <div class="d-grid gap-2 col-6 mx-auto">
-        <button class="btn btn-primary" type="button">Aceptar</button>
+        <button class="btn btn-primary" type="submit">Buscar hospitales</button>
       </div>
     </form>
+
+
+    <div id="map" style="width:100%; height:400px;" class="my-4 border rounded shadow-sm"></div>
+    <div id="hospitalResults" class="mt-4"></div>
   </section>
 
-  <!-- Map Image -->
-  <section class="text-center my-4">
-    <img src="imagenes/mapa.jpg" class="rounded mx-auto d-block img-fluid" alt="Mapa de hospitales cercanos">
-  </section>
+  <!-- Google Maps -->
+  <script async
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&libraries=places&callback=initMap">
+  </script>
 
-  <!-- Center Selection -->
-  <section class="container">
+
+  <!-- Script Principal -->
+  <script>
+    /* -----------------------------
+       GOOGLE MAPS
+    -------------------------------*/
+
+
+    let map, geocoder, service;
+    const hospitalResultsDiv = document.getElementById("hospitalResults");
+
+
+    function initMap() {
+      geocoder = new google.maps.Geocoder();
+      const centroInicial = { lat: -34.6037, lng: -58.3816 };
+
+
+      map = new google.maps.Map(document.getElementById("map"), {
+        center: centroInicial,
+        zoom: 13,
+      });
+
+
+      service = new google.maps.places.PlacesService(map);
+    }
+
+
+    document.getElementById("locationForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const direccion = document.getElementById("userLocation").value.trim();
+
+
+      if (!direccion) {
+        alert("Por favor, ingrese una dirección válida.");
+        return;
+      }
+
+
+      geocoder.geocode({ address: direccion }, (results, status) => {
+        if (status === "OK" && results[0]) {
+          const location = results[0].geometry.location;
+          map.setCenter(location);
+          new google.maps.Marker({
+            map,
+            position: location,
+            title: "Tu ubicación"
+          });
+
+
+          buscarHospitales(location);
+        } else {
+          alert("No se pudo encontrar la dirección ingresada.");
+        }
+      });
+    });
+
+
+    function buscarHospitales(location) {
+      const request = {
+        location,
+        radius: 3000,
+        type: ["hospital"],
+      };
+
+
+      service.nearbySearch(request, (results, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          mostrarHospitales(results);
+        } else {
+          hospitalResultsDiv.innerHTML = "<p class='text-danger'>No se encontraron hospitales cercanos.</p>";
+        }
+      });
+    }
+
+
+    function mostrarHospitales(hospitales) {
+      hospitalResultsDiv.innerHTML = "<h5 class='mt-4'>Hospitales cercanos:</h5>";
+      const ul = document.createElement("ul");
+      ul.classList.add("list-group", "mt-3");
+
+
+      hospitales.forEach((h) => {
+        const lat = h.geometry.location.lat();
+        const lng = h.geometry.location.lng();
+        const mapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+
+
+        const li = document.createElement("li");
+        li.classList.add("list-group-item");
+
+
+        li.innerHTML = `
+          <strong>${h.name}</strong><br>
+          ${h.vicinity || "Dirección no disponible"}<br>
+          <a href="${mapsUrl}" target="_blank">📍 Ver en Google Maps</a>
+        `;
+
+
+        ul.appendChild(li);
+
+
+        const marker = new google.maps.Marker({
+          map,
+          position: h.geometry.location,
+          title: h.name,
+        });
+
+
+        const info = new google.maps.InfoWindow({
+          content: `<strong>${h.name}</strong><br>${h.vicinity}<br><a href="${mapsUrl}" target="_blank">Ver en Google Maps</a>`
+        });
+
+
+        marker.addListener("click", () => info.open(map, marker));
+      });
+
+
+      hospitalResultsDiv.appendChild(ul);
+    }
+
+    <!-- Center Selection -->
+    <section class="container">
     <p>Ingresá el centro de salud elegido (Debe incluir nombre y dirección):</p>
     <form>
       <div class="mb-3">
         <input type="text" class="form-control" id="healthCenter" placeholder="Ej. Hospital ABC, Calle 456">
       </div>
+    </form>
 
-      <p>Selecciona la especialidad:</p>
+    <p>Selecciona la especialidad:</p>
       <div class="d-grid gap-2 col-6 mx-auto">
         <select class="form-select" aria-label="Seleccionar especialidad">
           <option selected>Ortopedia</option>
@@ -88,7 +207,7 @@
         <button class="btn btn-primary" type="submit">Continuar</button>
       </div>
     </form>
-  </section>
+      </section>
 
   <!-- Contact Form -->
   <section class="container mt-4">
@@ -109,5 +228,92 @@
       </div>
     </form>
   </section>
+
+  <!-- NUEVA SECCIÓN: CALENDARIO -->
+  <section class="container my-5" id="calendario">
+    <h3 class="text-primary mb-3">Calendario de Turnos Agendados</h3>
+
+
+    <!-- Contenedor calendario -->
+    <div id="calendar" class="border rounded shadow-sm p-3"></div>
+  </section>
+
+
+  <!-- Footer -->
+  <footer class="bg-primary text-white text-center py-3 mt-5">
+    <p class="mb-0">&copy; 2025 Turnero Estrella | Desarrollado por estudiantes de ProA</p>
+  </footer>
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+  <!-- FullCalendar CSS + JS -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
+<!-- Sección Calendario -->
+  <section id="calendario" class="container my-5">
+    <h2 class="text-center mb-4">📅 Calendario de Turnos</h2>
+    <p class="text-center">Hacé clic en una fecha para agendar un turno.</p>
+
+
+    <!-- Calendario -->
+    <div id="calendar" class="border rounded shadow p-3"></div>
+  </section>
+
+
+  <!-- Footer -->
+  <footer class="bg-primary text-white text-center py-3 mt-5">
+    <p class="mb-0">&copy; 2025 Turnero Estrella | Desarrollado por estudiantes de ProA</p>
+  </footer>
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+  <!-- FullCalendar -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
+
+  <!-- Script Calendario -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const calendarEl = document.getElementById("calendar");
+
+
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: "dayGridMonth",
+        selectable: true,
+        editable: false,
+        height: "auto",
+
+
+        dateClick: function (info) {
+          const titulo = prompt("Ingrese el motivo del turno:");
+          if (titulo) {
+            calendar.addEvent({
+              title: titulo,
+              start: info.dateStr,
+              allDay: true
+            });
+            alert("Turno agendado correctamente.");
+          }
+        },
+
+
+        eventClick: function (info) {
+          if (confirm("¿Desea eliminar este turno?")) {
+            info.event.remove();
+          }
+        }
+      });
+
+
+      calendar.render();
+    });
+  </script>
 </body>
 </html>
