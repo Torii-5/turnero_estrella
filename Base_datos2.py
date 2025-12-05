@@ -17,7 +17,7 @@ def registrar_usuario():
     nombre = input("Nombre: ")
     apellido = input("Apellido: ")
     email = input("Email: ")
-    fecha_nacimiento = input("Contraseña: ")
+    fecha_nacimiento = input("Fecha de nacimiento: ")
     telefono = input("Teléfono: ")
     seguro_medico = input("Seguro_medico: ")
 
@@ -25,10 +25,10 @@ def registrar_usuario():
     cursor = conexion.cursor()
 
     query = """
-        INSERT INTO usuarios (nombre, apellido, email, fecha_nacimiento, telefono, seguro_medico)
-        VALUES (%s, %s, %s, %s, %s, %s)
+        INSERT INTO pacientes (nombre, apellido, fecha_nacimiento, telefono, email, seguro_medico)
+        VALUES ('Carlos', 'Suarez',  '2001-09-05', '351867500', 'Carlos@gimail.com', 'Blue Cross');
     """
-    datos = (nombre, apellido, email, fecha_nacimiento, telefono, seguro_medico)
+    datos = (nombre, apellido, fecha_nacimiento, telefono, email, seguro_medico)
 
     cursor.execute(query, datos)
     conexion.commit()
@@ -44,19 +44,19 @@ def registrar_usuario():
 def iniciar_sesion():
     print("\n--- INICIO DE SESIÓN ---")
     email = input("Email: ")
-    fecha_nacimiento = input("Contraseña: ")
+    fecha_nacimiento = input("Fecha de nacimiento: ")
 
     conexion = conectar()
     cursor = conexion.cursor()
 
-    query = "SELECT id, nombre, apellido FROM usuarios WHERE email = %s AND fecha_nacimiento = %s"
+    query = "SELECT id, nombre, apellido FROM usuarios WHERE email = (email, ) AND fecha_nacimiento = (fecha de nacimiento, )"
     cursor.execute(query, (email, fecha_nacimiento))
     resultado = cursor.fetchone()
 
     if resultado:
         print(f"\nBienvenido {resultado[1]} {resultado[2]} (ID: {resultado[0]})\n") #type: ignore
     else:
-        print("\nCredenciales incorrectas.\n")
+        print("\nDatos incorrectos.\n")
 
     cursor.close()
     conexion.close()
@@ -66,19 +66,19 @@ def iniciar_sesion():
 # -------------------------------------
 def consultar_usuario():
     print("\n--- CONSULTAR USUARIO ---")
-    user_id = input("ID del usuario: ")
+    telefono = input("ingrese número de telefono: ")
 
     conexion = conectar()
     cursor = conexion.cursor()
 
-    cursor.execute("SELECT * FROM usuarios WHERE id = %s", (user_id,))
+    cursor.execute("SELECT nombre, apellido FROM usuarios WHERE telefono = 351867500", (telefono,))
     resultado = cursor.fetchone()
 
     if resultado:
         print("\nDatos del usuario:")
         print(resultado)
     else:
-        print("\nNo existe un usuario con ese ID.")
+        print("\nNo existe un usuario con ese número de telefono.")
 
     cursor.close()
     conexion.close()
@@ -86,22 +86,22 @@ def consultar_usuario():
 # -------------------------------------
 # MODIFICAR DATOS DEL USUARIO
 # -------------------------------------
-def modificar_usuario():
+def modificar_doctores():
     print("\n--- MODIFICAR DATOS ---")
-    user_id = input("ID del usuario: ")
+    especialidad= input("Ingrese su especialidad: ")
 
-    nuevo_telefono = input("Nuevo teléfono: ")
+    consultorio= input("Nuevo número de consultorio: ")
 
     conexion = conectar()
     cursor = conexion.cursor()
 
     query = """
         UPDATE usuarios
-        SET telefono = %s
-        WHERE id = %s
+        SET consultorio = 8
+        WHERE especialidad  = 'Ortodoncia'
     """
 
-    cursor.execute(query, (nuevo_telefono, user_id))
+    cursor.execute(query, (consultorio, especialidad))
     conexion.commit()
 
     print("\nDatos modificados correctamente.\n")
@@ -124,7 +124,7 @@ def modificar_fecha_nacimiento():
     cursor.execute(query, (nueva_fecha, user_id))
     conexion.commit()
 
-    print("\nContraseña actualizada.\n")
+    print("\nFecha actualizada correctamente.\n")
 
     cursor.close()
     conexion.close()
@@ -134,12 +134,12 @@ def modificar_fecha_nacimiento():
 # -------------------------------------
 def eliminar_usuario():
     print("\n--- ELIMINAR USUARIO ---")
-    user_id = input("ID del usuario: ")
+    apellido = input("Ingrese apellido: ")
 
     conexion = conectar()
     cursor = conexion.cursor()
 
-    cursor.execute("DELETE FROM usuarios WHERE id = %s", (user_id,))
+    cursor.execute("DELETE FROM usuarios WHERE apellido = Suarez", (apellido,))
     conexion.commit()
 
     print("\nUsuario eliminado correctamente.\n")
