@@ -1,3 +1,4 @@
+CREATE DATABASE turnero_estrella
 USE turnero_estrella;
 CREATE table hospitales(
 	Id_table int auto_increment primary key,
@@ -53,8 +54,8 @@ INSERT INTO horarios (dia_semana, hora_inicio, hora_fin) values ('Jueves' ,'06:0
  SET consultorio= 8
  WHERE especialidad='Ortodoncia';
  
- DELETE from hospitales
- WHERE especialidad='Cardiología';
+ DELETE from pacientes
+ WHERE apellido = 'Suarez';
  
  select *
  from horarios;
