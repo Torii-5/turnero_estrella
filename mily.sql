@@ -29,6 +29,7 @@ id int auto_increment primary key,
 nombre varchar(20),
 apellido varchar(20),
 fecha_nacimiento DATE NOT NULL,
+contraseña varhar(10),
 telefono varchar(15),
 email varchar(50),
 seguro_medico varchar(50)
@@ -37,8 +38,8 @@ seguro_medico varchar(50)
 INSERT INTO doctores (nombre, consultorio, especialidad) values ('Maria', 7, 'pedriatría');
 INSERT INTO doctores (nombre, consultorio, especialidad) values ('Juan', 7, 'Ortodoncia');
 
-INSERT INTO pacientes (nombre, apellido, fecha_nacimiento, telefono , email, seguro_medico) values ( 'Valentina', 'Rosarios', '2009-11-20', '351222029', 'Vale@gimail.com', 'Blue Cross');
-INSERT INTO pacientes (nombre, apellido, fecha_nacimiento, telefono , email, seguro_medico) values ('Carlos,','Suarez', '2001-09-05', '351867500', 'Carlos@gimail.com', 'Blue Cross');
+INSERT INTO pacientes (nombre, apellido, fecha_nacimiento, contraseña, telefono , email, seguro_medico) values ( 'Valentina', 'Rosarios', '2009-11-20', 'aceituna', '351222029', 'Vale@gimail.com', 'Blue Cross');
+INSERT INTO pacientes (nombre, apellido, fecha_nacimiento, contraseña, telefono , email, seguro_medico) values ('Carlos,','Suarez', '2001-09-05', 'mer3ngue' '351867500', 'Carlos@gimail.com', 'Blue Cross');
 
 INSERT INTO hospitales (nombre, especialidad, horario, direccion) values ( 'Hospital General','Cardiologia', '09:00:00' ,'Av Libertador' );
 INSERT INTO hospitales (nombre, especialidad, horario, direccion) values ('Hosoital Infantil','Odontoligía', '08:00:00', 'Luis de Góngora');
