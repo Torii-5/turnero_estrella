@@ -18,6 +18,7 @@ def registrar_usuario():
     apellido = input("Apellido: ")
     email = input("Email: ")
     fecha_nacimiento = input("Fecha de nacimiento: ")
+    contraseña = input("Contraseña: ")
     telefono = input("Teléfono: ")
     seguro_medico = input("Seguro_medico: ")
 
@@ -25,10 +26,10 @@ def registrar_usuario():
     cursor = conexion.cursor()
 
     query = """
-        INSERT INTO pacientes (nombre, apellido, fecha_nacimiento, telefono, email, seguro_medico)
+        INSERT INTO pacientes (nombre, apellido, fecha_nacimiento, contraseña, telefono, email, seguro_medico)
         VALUES ('Carlos', 'Suarez',  '2001-09-05', '351867500', 'Carlos@gimail.com', 'Blue Cross');
     """
-    datos = (nombre, apellido, fecha_nacimiento, telefono, email, seguro_medico)
+    datos = (nombre, apellido, fecha_nacimiento, contraseña, telefono, email, seguro_medico)
 
     cursor.execute(query, datos)
     conexion.commit()
@@ -44,13 +45,13 @@ def registrar_usuario():
 def iniciar_sesion():
     print("\n--- INICIO DE SESIÓN ---")
     email = input("Email: ")
-    fecha_nacimiento = input("Fecha de nacimiento: ")
+    contraseña = input("contraseña: ")
 
     conexion = conectar()
     cursor = conexion.cursor()
 
-    query = "SELECT id, nombre, apellido FROM usuarios WHERE email = (email, ) AND fecha_nacimiento = (fecha de nacimiento, )"
-    cursor.execute(query, (email, fecha_nacimiento))
+    query = "SELECT id, nombre, apellido FROM usuarios WHERE email = (email, ) AND contraseña = (contraseña, )"
+    cursor.execute(query, (email, contraseña))
     resultado = cursor.fetchone()
 
     if resultado:
