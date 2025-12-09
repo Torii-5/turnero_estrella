@@ -29,7 +29,7 @@ id int auto_increment primary key,
 nombre varchar(20),
 apellido varchar(20),
 fecha_nacimiento DATE NOT NULL,
-contraseña varhar(10),
+contraseña varchar(10),
 telefono varchar(15),
 email varchar(50),
 seguro_medico varchar(50)
